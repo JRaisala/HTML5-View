@@ -7,8 +7,10 @@ p {
 
 /* tyylit classeille */
 
+
+
 .luokka1 {
-    background-color: aqua;
+    background-color: red;
 }
 
 .fancy {
@@ -16,10 +18,19 @@ p {
     border: 2px;
     background-color: aquamarine;
     border-radius: 8px;
-}
+} 
+
 
 /* tyylit id:lle */
 
 #omaID1  {
     margin:100px;
+}
+
+div:first-child{
+   color:blue;
+}
+
+[class=fancy]{
+  background-color: red;
 }
