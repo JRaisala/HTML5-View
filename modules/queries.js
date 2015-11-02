@@ -1,7 +1,8 @@
 var db = require('./database');
-exports.getAllPersons = function(req,res){
      /*
      this function gets all documents from person collection*/
+exports.getAllPersons = function(req,res){
+
   db.Person.find(function(err,data){
     
             if(err){  
