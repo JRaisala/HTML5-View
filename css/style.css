@@ -34,3 +34,10 @@ div:first-child{
 [class=fancy]{
   background-color: red;
 }
+
+#myForm {
+  margin:100px;
+  width:300px;
+}
+
+

@@ -14,3 +14,16 @@ exports.getAllPersons = function(req,res){
                              }
                  });
 }
+/**
+ this function saves new person information to your person collection
+*/
+exports.saveNewPerson = function(req,res){
+  
+  var personTemp = new db.Person(req.body); 
+  
+   personTemp.save(function(err,ok){
+      //save it to database
+        res.send("Database action done");
+        });
+}
+   

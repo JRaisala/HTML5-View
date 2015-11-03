@@ -1,6 +1,9 @@
+//This variable is shown to every function
+var g_person_data;
+
+
+
 //Wait document.ready event
-
-
 $(document).ready(function(){
     console.log("jquery onload triggered");
     $("nav").css("background-color","lightblue")
@@ -49,13 +52,38 @@ if(data.length > 0){
                  "<td>" + data[i].name + "</td>" +
                   "<td>" + data[i].address + "</td>" +
                   "<td>" + data[i].age + "</td>" +
-                  "<td>" + data[i].email + "</td>" +
+                  "<td><input type='button' id=" + data[i]._id + " value='Modify'/></td>" +
                   "</tr>";
     
     $(html).appendTo("tbody");
   }
-
+  
+  
+  
+  //get all elements from DOM where element has
+//attributes 'typeä with value 'button', Then add
+//event handler for click event for each of them
+   $("[type=button]").click(function(click_data){
+      
+     //Loop throught all values
+     for (var i = 0; i < data.length; i++){
+     if(click_data.currentTarget.id ==  data[i]._id)
+     {
+        buildModifyUI(data[i]);
+        break;
+     }
+       
+     }
+      });
 });
+
+function buildModifyUI(person_data){
+
+      var html = "<input type='text' value='" + person_data.name + "'/>";
+  
+    $("body").html(html);
+      
+}
 
 
   /*NONSENSE
