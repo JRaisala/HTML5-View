@@ -27,6 +27,7 @@ app.use('/css',express.static(path.join(__dirname, 'css')));
 app.use('/controllers',express.static(path.join(__dirname, 'controllers')));
 app.use('/lib',express.static(path.join(__dirname, 'lib')));
 
+app.use('/persons',person);
 
 
 //*****************************ROUTERS***********************************//
