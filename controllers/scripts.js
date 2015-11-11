@@ -6,9 +6,44 @@ var g_person_data;
 //Wait document.ready event
 $(document).ready(function(){
     console.log("jquery onload triggered");
+    
+     $("#search").click(function(){
+        var text = $("#search_text").val();
+        $.ajax({
+            
+            method:"GET",
+            url:"http://localhost:3000/persons/nimi=" + text,
+        
+      }).done(function(data){
+            console.log(data);
+            
+               $("tbody").children().remove();
+               
+               for(var i=0; i < data.length; i++){
+
+
+                  var html = "<tr>" +   
+                             "<td>" + data[i].name + "</td>" +
+                              "<td>" + data[i].address + "</td>" +
+                              "<td>" + data[i].age + "</td>" +
+                              "<td><input type='button' id=" + data[i]._id + " value='Modify'/></td>" +
+                              "</tr>";
+
+                $(html).appendTo("tbody");
+              }
+
+            
+            
+            
+            
+            })
+   });
+    
     $("nav").css("background-color","lightblue")
     .css("padding","20px").css("border-radius","8px");
   });
+
+
 
 
 $(".about").html("<b>New text</b>");  
@@ -20,6 +55,8 @@ var setting = {
           url:"http://localhost:3000/persons",
           dataType:"json",
 }
+
+
 
 $.ajax(setting).done(function(data){
   
@@ -120,7 +157,7 @@ function buildModifyUI(person_data){
     });
 }
 
-
+   
   /*NONSENSE
     var data = documets.getElementsByTagName("nav");
     for(i=0; { i < data.lenght; (++) {
