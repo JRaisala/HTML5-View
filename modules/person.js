@@ -3,6 +3,10 @@ var db = require('./queries');
 
 var router = express.Router();
 
+router.get('/:username',function(req,res){
+    
+)};
+
 //Handle GET requets for /persons context
 router.get('/',function(req,res){
     

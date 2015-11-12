@@ -52,7 +52,7 @@ $("[data-dummy]").html("<p>hello world!</p>");
 var setting = {
   
           method:"GET",
-          url:"http://localhost:3000/persons",
+          url:"http://localhost:3000/friends/username=" + localStorage['username'],
           dataType:"json",
 }
 

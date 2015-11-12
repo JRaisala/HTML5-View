@@ -15,7 +15,7 @@ function connectionStatus(err,ok){
 var User = mongoose.model('User',{
         username:{type:String,unique:true},
         password:String,
-        friends:[{type:Scema.type.ObjectId,ref:'Person'}]
+        friends:[{type:mongoose.Schema.Types.ObjectId,ref:'Person'}]
 });
 
 
@@ -27,6 +27,7 @@ var Person = mongoose.model('Person',{
 
 //Using exports objects you expose the data to other modules
 exports.Person = Person;
+exports.Friends = User;
 
 exports.myFunction = function(){
   console.log("This ");
