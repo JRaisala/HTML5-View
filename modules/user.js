@@ -14,7 +14,6 @@ var router = express.Router();
 //localhost:3000/friends/login
 router.post('/login',function(req,res){
     
-    getFriendsByUsername
      query. getFriendsByUsername(req,res);
     query.loginFriend(req,res);
 });
