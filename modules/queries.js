@@ -30,12 +30,15 @@ exports.saveNewPerson = function(req,res){
     personTemp.save(function(err,ok){
         
         db.Friends.update({username:req.body.user},
-                            {$push:{'friends':personTemp._id}},
-                             function(err,model){
+                          {$push:{'friends':personTemp._id}},
+                          function(err,model){
+            
+            //console.log("SEND REDIRECT!!!!!");
             //Make a redirect to root context
-       // res.redirect('/persons.html');
+            //res.redirect(301,'/persons.html');
             res.send("Added stuff");
         });
+     
     });
 }
 
@@ -47,15 +50,22 @@ exports.deletePerson = function(req,res){
     //split function splits the string form "="
     //and creates an array where [0] contains "id"
     //and [1] contains "34844646bbsksjdks"
+    console.log(req.params);
     var id = req.params.id.split("=")[1];
-    console.log(id);
+    var userName = req.params.username.split("=")[1];
     db.Person.remove({_id:id},function(err){
         
         if(err){
             res.send(err.message);
         }
         else{
-            res.send("Delete ok");
+            //If succesfully removed remome also reference from
+            //User collection
+            db.Friends.update({username:userName},{$pull:{'friends':id}},function(err,data){
+                console.log(err);
+                res.send("Delete ok");    
+            });
+            
         }
         
     });
@@ -82,8 +92,18 @@ exports.updatePerson = function(req,res){
 exports.findPersonsByName = function(req,res){
     
     var name = req.params.nimi.split("=")[1];
-    console.log("name:" + name);
+    var username = req.params.username.split("=")[1];
+    console.log(name);
+    console.log(username);
+    db.Friends.find({username:username}).
+        populate({path:'friends',match:{name:{'$regex':'^' + name,'$options':'i'}}}).
+            exec(function(err,data){
+        console.log(err);
+        console.log(data);
+        res.send(data[0].friends);
+    });
     
+    /*
     db.Person.find({name:{'$regex':'^' + name,'$options':'i'}},function(err,data){
         
         if(err){
@@ -93,7 +113,7 @@ exports.findPersonsByName = function(req,res){
             console.log(data);
             res.send(data);
         }
-    });
+    });*/
 }
 
 exports.registerFriend = function(req,res){
@@ -144,7 +164,7 @@ exports.getFriendsByUsername = function(req,res){
         populate('friends').exec(function(err,data){
             
             console.log(err);
-            console.log(data);
+            console.log(data[0].friends);
             res.send(data[0].friends);
         
         });

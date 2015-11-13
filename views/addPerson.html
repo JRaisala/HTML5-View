@@ -1,48 +1,42 @@
 <!doctype html>
 <html>
-  <head>
-      <link href="../css/styles.css" type="text/css" rel="stylesheet">
-      <link href="../css/bootstrap.min.css" type="text/css" rel="stylesheet">
-      <link href="../css/bootstrap-theme.min.css" type="text/css" rel="stylesheet">
-       <script src="../lib/jquery-2.1.4.min.js" language="JavaScript"></script> 
-      <script src="../controllers/scripts.js"></script> 
-      <script>
-          $(document).ready(function(){
-                            $("sendBtn").click(function(){
-                                               
-                                var data = {
-                                               
-                                               user:localStorage['username'],
-                                               name:$("#name").val(),
-                                               address:$("#address").val(),
-                                               age:$("#age").val()
-                                               }
-                                               $.ajax({
-                                                   method:'POST',
-                                                   url:'http://localhost:3000/persons',
-                                                   data:data,
-                                                   //dataType:'json'
-                            }).done(function(data){
-                             window.location ="./persons.html";
-                              });
-                            });
-             });
-                           
-                            
-                            
-                            
-                            </script>
-  </head>
-  <body>
-          <form> 
-            <div class="form-group">
-              <input type="text"  id="name" placeholder="Your full name" required/>
-              <input type="address" id="address" placeholder="Address" required/>
-              <input type="number" id="age" placeholder="age" required/>
-          
-            <br>
-        <button id="sendBtn" type="button" class="btn btn-default" value="Send">Submit</button>
-      </form>
-     
-  </body>
+    <head>
+        <script src="../lib/jquery-2.1.4.min.js">
+        </script>
+        <script>
+            $(document).ready(function(){
+                
+                $("#sendBtn").click(function(){
+                    
+                    var data = {
+                        
+                        user:localStorage['username'],
+                        name:$("#name").val(),
+                        address:$("#address").val(),
+                        age:$("#age").val()
+                    }
+                    
+                    $.ajax({
+                        method:'POST',
+                        url:'http://localhost:3000/persons',
+                        data:data,
+                        //dataType:'json'
+                    }).done(function(data){
+                    window.location ="./persons.html";
+                });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Add new contact info</h1>
+        <form>
+            <input type="text" placeholder="Your full name" id="name" required/>
+            <input type="text" placeholder="Your full address" id="address" required/>
+            <input type="number" placeholder="Your age" id="age" required/>
+            
+            <input id="sendBtn" type="button" value="Send"/>
+            
+        </form>
+    </body>
 </html>
