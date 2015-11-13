@@ -1,119 +1,107 @@
+"use strict";
+console.log("Here we go!!");
+
 //This variable is shown to every function
 var g_person_data;
 
-
-
-//Wait document.ready event
-$(document).ready(function(){
+//Wait document ready event
+$(document).ready(function() {
+    
+    
     console.log("jquery onload triggered");
     
-     $("#search").click(function(){
+    $("#search").click(function(){
         var text = $("#search_text").val();
         $.ajax({
             
             method:"GET",
             url:"http://localhost:3000/persons/nimi=" + text,
-        
-      }).done(function(data){
+        }).done(function(data){
             console.log(data);
-            
-               $("tbody").children().remove();
-               
-               for(var i=0; i < data.length; i++){
+            $("tbody").children().remove();
+            for(var i=0; i < data.length; i++){
 
-
-                  var html = "<tr>" +   
-                             "<td>" + data[i].name + "</td>" +
-                              "<td>" + data[i].address + "</td>" +
-                              "<td>" + data[i].age + "</td>" +
-                              "<td><input type='button' id=" + data[i]._id + " value='Modify'/></td>" +
-                              "</tr>";
+                var html = "<tr>" +
+                           "<td>" + data[i].name + "</td>" +
+                           "<td>"+ data[i].address + "</td>" +
+                           "<td>" + data[i].age + "</td>" +
+                           "<td><input type='button' id=" + data[i]._id + " value='Modify'/></td>" +
+                           "</tr>";
 
                 $(html).appendTo("tbody");
-              }
-
-            
-            
-            
-            
-            })
-   });
+            }
+        });
+    });
     
-    $("nav").css("background-color","lightblue")
-    .css("padding","20px").css("border-radius","8px");
-  });
-
-
-
-
-$(".about").html("<b>New text</b>");  
-$("[data-dummy]").html("<p>hello world!</p>");
-
-var setting = {
-  
-          method:"GET",
-          url:"http://localhost:3000/friends/username=" + localStorage['username'],
-          dataType:"json",
-}
-
-
-
-$.ajax(setting).done(function(data){
-  
-  console.log(data);
-  //Get all keys](attribute names) From json object
-  console.log(Object.keys(data[0]));
-  
-//Check that there are elements in array
-if(data.length > 0){
-  
-        var headers = Object.keys(data[0]);
+    $("#head").css("background-color","lightblue")
+        .css("padding","20px").css("border-radius","8px");
     
-    //Create table headers dynamicaly
-    var row = $("<tr></tr>");
-    for(var i = 1; i < headers.length; i++){
-      
-      //Create row for headers
-      $("<th>" + headers[i] + "</th>").appendTo(row);
+    $(".about").html("<b>New text</b>");
+    $("[data-dummy]").html("<p>Hello World</p>");
+    
+    var setting = {
+        
+        method:"GET",
+        url:"http://localhost:3000/friends/username=" + localStorage['username'],
+        dataType:"json",
     }
-    /*Add row to thead element*/
-    $(row).appendTo("thead");
-      
-    }
-  
-  //Create table content dynamically
-  for(var i=0; i < data.length; i++){
     
+    $.ajax(setting).done(function(data){
+        
+        console.log(data);
+        //Get all keys (attribute names) from json object
+        //console.log(Object.keys(data[0]));
+        
+        //Check that there are elements in array
+        if(data.length > 0){
+            //Create table headers dynamically
+            var headers = Object.keys(data[3]);
+            //Create row for headers
+            var row = $("<tr></tr>");
+            for(var i = 1; i < headers.length; i++){
+                //Create header and add it to orw
+                $("<th>" + headers[i] + "</th>").appendTo(row);
+            }
+            //Add row to thead element
+            $(row).appendTo("thead");
+        }
+        
+        //Create table content dynamically
+        for(var i=0; i < data.length; i++){
+            
+            var html = "<tr>" +
+                       "<td>" + data[i].name + "</td>" +
+                       "<td>"+ data[i].address + "</td>" +
+                       "<td>" + data[i].age + "</td>" +
+                       "<td><input type='button' id=" + data[i]._id + " value='Modify'/></td>" +
+                       "</tr>";
+            
+            $(html).appendTo("tbody");
+        }
+        
+        //Get all elements from DOM where element has
+        //attribute 'type' with value 'button'. Then add
+        //event handler for click event for each of them
+        $("[type=button]").click(function(click_data){
+            
+            //Loop trough all the values
+            for(var i = 0; i < data.length; i++){
+                
+                //Check if id from button matches one of 
+                //person id
+            if(click_data.currentTarget.id == data[i]._id)
+            {
+                buildModifyUI(data[i]);
+                break;
+            }
+                
+                
+            }
+        });
+        
+    });   
     
-      var html = "<tr>" +   
-                 "<td>" + data[i].name + "</td>" +
-                  "<td>" + data[i].address + "</td>" +
-                  "<td>" + data[i].age + "</td>" +
-                  "<td><input type='button' id=" + data[i]._id + " value='Modify'/></td>" +
-                  "</tr>";
-    
-    $(html).appendTo("tbody");
-  }
-  
-  
-  
-  //get all elements from DOM where element has
-//attributes 'typeä with value 'button', Then add
-//event handler for click event for each of them
-   $("[type=button]").click(function(click_data){
-      
-     //Loop throught all values
-     for (var i = 0; i < data.length; i++){
-     if(click_data.currentTarget.id ==  data[i]._id)
-     {
-        buildModifyUI(data[i]);
-        break;
-     }
-       
-     }
-      });
 });
-
 
 /**
   *Creates a modify view for our application
@@ -157,44 +145,12 @@ function buildModifyUI(person_data){
     });
 }
 
-   
-  /*NONSENSE
-    var data = documets.getElementsByTagName("nav");
-    for(i=0; { i < data.lenght; (++) {
-                               data[i].style.backgroundColor = "red";
-});
-
-$(document).ready(domReady);
-function domReady(){
-}
-
-
-*/
 
 
 
-/*
 
-console.log("jeejeeJEE");
-window.onload = function(event){
 
-  console.log(event);
-  para1.innerHTML = "Changed from 35";
-  para1.style.backgroundColor = "yellow";
-  
 
-}
 
-window.onload = domReadyjeejee;
-function domReadyjeejee(event) {
-  return ;
-}
 
-function someFunction(nimi){
-    console.log(nimi);
-}
-
-someFunction(21);
-someFunction("Juha");
-*/
 

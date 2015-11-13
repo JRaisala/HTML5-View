@@ -3,17 +3,15 @@ var db = require('./queries');
 
 var router = express.Router();
 
-router.get('/:username',function(req,res){
-    
-)};
-
 //Handle GET requets for /persons context
 router.get('/',function(req,res){
     
     db.getAllPersons(req,res);
 });
 
-router.get('/:nimi', function(req,res){
+
+router.get('/:nimi',function(req,res){
+    
     console.log("Get with name router called");
     db.findPersonsByName(req,res);
 });

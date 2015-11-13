@@ -29,8 +29,13 @@ exports.saveNewPerson = function(req,res){
     //Save it to database
     personTemp.save(function(err,ok){
         
-        //Make a redirect to root context
-        res.redirect('/');
+        db.Friends.update({username:req.body.user},
+                            {$push:{'friends':personTemp._id}},
+                             function(err,model){
+            //Make a redirect to root context
+       // res.redirect('/persons.html');
+            res.send("Added stuff");
+        });
     });
 }
 
@@ -71,16 +76,18 @@ exports.updatePerson = function(req,res){
 }
 
 /**
-This function searches database by name or by begin letters of name */
+  *This function seraches database by name or 
+  *by begin letters of name
+  */
 exports.findPersonsByName = function(req,res){
     
     var name = req.params.nimi.split("=")[1];
     console.log("name:" + name);
     
-        db.Person.find({name:{'$regex':'^' + name,'$options':'i'}},function(err,data){
-            
+    db.Person.find({name:{'$regex':'^' + name,'$options':'i'}},function(err,data){
+        
         if(err){
-                 res.send('error');
+            res.send('error');
         }
         else{
             console.log(data);
@@ -89,51 +96,60 @@ exports.findPersonsByName = function(req,res){
     });
 }
 
-exports.registerFriend = function(req,res) {
+exports.registerFriend = function(req,res){
     
-    var friend = new db.Friends(req,body);
+    var friend = new db.Friends(req.body);
     friend.save(function(err){
         
         if(err){
-                res.send({status:err,message});
-            }
-                
-            else{
-                    res.send({status:"ok"});
-                }
+            
+            res.send({status:err.message});
+        }
+        else{
+            res.send({status:"Ok"});
+        }
     });
 }
 
 exports.loginFriend = function(req,res){
     
     var searchObject = {
-                    username:req.body.username,
-                    password:req.body.password
+        username:req.body.username,
+        password:req.body.password
     }
-    
     
     db.Friends.find(searchObject,function(err,data){
         
-        if(err) {
+        if(err){
             
-            res.send({status:err,message});
+            res.send({status:err.message});
             
-                     }
-                    else{
-                     res.send({status:"Wrong username or password"});
-                    }
+        }else{
+            //=< 0 means wrong username or password
+            if(data.length > 0){
+                res.send({status:"Ok"});
+            }
+            else{
+                res.send({status:"Wrong username or password"});
+            }
             
-        });
+        }
+    });
 }
-             
 
 exports.getFriendsByUsername = function(req,res){
-    var.usern = req.params.username.split("=")[1];
-    db.Friends.find(username:usern)}.populatee('friends').exec(function(err,data){
     
-    console.log(err);
-    console.log(data);
-    res.send(data.friends);
-    
-    });
-)
+    var usern = req.params.username.split("=")[1];
+    db.Friends.find({username:usern}).
+        populate('friends').exec(function(err,data){
+            
+            console.log(err);
+            console.log(data);
+            res.send(data[0].friends);
+        
+        });
+}
+
+
+
+
